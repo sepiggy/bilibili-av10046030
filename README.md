@@ -16,3 +16,5 @@ Demos for [C++程序设计(北京大学)](https://www.bilibili.com/video/av10046
         - 如果*elem1和*elem2哪个排在前面都行, 那么函数返回0
         - 如果*elem1应该排在*elem2后面, 则函数返回值是正整数
 ## (二) 命令行参数
+1. `int main(int argc, char *argv[])`
+2. `int main(int argc, char **argv)`
