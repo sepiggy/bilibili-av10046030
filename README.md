@@ -13,7 +13,9 @@ Demos for [C++程序设计(北京大学)](https://www.bilibili.com/video/av10046
     - [7 右移(>>)](#7-右移)
     - [8 思考题](#8-思考题)
   - [(四) 引用](#四-引用)
-  - [(五) const关键字](#五-const关键字)
+  - [(五) const关键字(read-only)](#五-const关键字read-only)
+  - [(六) 动态内存分配](#六-动态内存分配)
+  - [(七) 内联函数, 函数重载, 函数缺省参数](#七-内联函数-函数重载-函数缺省参数)
 # 一 从C走进C++
 ## (一) 函数指针
 1. 程序在运行期间, 每个函数都会占用一段连续的内存空间
@@ -24,7 +26,7 @@ Demos for [C++程序设计(北京大学)](https://www.bilibili.com/video/av10046
         void
         qsort(void *base, size_t nel, size_t width, int (*compar)(const void *, const void *));
         ```
-    - int 比较函数名(const void *elem1, const void *elem2);
+    - qsort函数最后一个参数是一个函数指针, 其指向的函数签名为 `int 比较函数名(const void *elem1, const void *elem2);`
     - 比较函数编写规则
         - 如果*elem1应该排在*elem2前面, 则函数返回值是负整数
         - 如果*elem1和*elem2哪个排在前面都行, 那么函数返回0
@@ -56,7 +58,7 @@ Demos for [C++程序设计(北京大学)](https://www.bilibili.com/video/av10046
     - [将变量中的某些位取反且同时保留其它位不变](002-bit_operation/demo04.c)
     - [不借助临时变量交换两个变量的值](002-bit_operation/demo06.c)
 3. 特点
-    - [若`a^b=c`, 则`c^b=a`及`c^a=b`](002-bit_operation/demo05.c)
+    - [若a^b=c, 则有c^b=a及c^a=b](002-bit_operation/demo05.c)
         - 此规律可以用来进行最简单的加密和解密
 ### 5 按位非(~)
 1. 规则
@@ -100,8 +102,58 @@ Demos for [C++程序设计(北京大学)](https://www.bilibili.com/video/av10046
 5. 例子
     - [交换两个变量](003-reference/demo03.cpp)
     - [引用作函数的返回值](003-reference/demo04.cpp)
-## (五) const关键字
+## (五) const关键字(read-only)
 1. 定义常量
-
-
+    ```c
+    const int MAX_VAL = 23;
+    const char *SCHOOL_NAME = "Peking University"
+    ```
+2. 定义常量指针
+    - 不可通过常量指针修改其指向的内容
+    - 不能把常量指针赋值给非常量指针; 反过来可以 (`常量指针指向的内容倾向于不被修改`)
+        ```c
+        const int *p1; int *p2;
+        p1 = p2; // ok
+        p2 = p1; // error
+        p2 = (int*)p1; // ok, cast conversion
+        ```
+    - 函数参数为常量指针时, 可避免函数内部不小心改变参数指针所指地方的内容
+3. 定义常引用
+    - 不能通过常引用修改其引用的变量(见前面笔记)
+## (六) 动态内存分配
+1. 动态分配一个变量的存储空间
+    - `p = new T;`
+        - 用`new`运算符实现动态内存分配, 其返回类型为`T *`
+        - T是任意类型名; p是类型为`T *`的指针
+        - 动态分配出一片大小为`sizeof(T)`字节的内存空间, 并且将该内存空间的`起始地址`赋值给P
+        - 例子
+            ```cpp
+            int *pn;
+            pn = new int;
+            *pn = 5;
+            ```
+    - `delete p;`
+        - 用`new`动态分配的内存空间, 一定要用`delete`运算符进行释放
+        - `delete 指针;`, 该指针必须指向`new`出来的空间
+        - 一片空间不能被delete多次
+2. 动态分配一个数组的存储空间
+    - `p = new T[N];`
+        - T是任意类型名; P是类型为`T *`的指针; N是要分配的数组元素的`个数`, 可以是整型`表达式`
+        - 动态分配出一片大小为`N * sizeof(T)`字节的内存空间, 并且将该内存空间的`起始地址`赋值给P
+        - 例子
+            ```cpp
+            int *pn;
+            int i = 5;
+            pn = new int[i * 20];
+            pn[0] = 20;
+            ```
+    - `delete[] p;`
+        - `delete[] 指针;`, 该指针`必须`指向new出来的数组
+        - 例子
+            ```cpp
+            int *p = new int[20];
+            p[0] = 1;
+            delete []p;
+            ```
+## (七) 内联函数, 函数重载, 函数缺省参数
 
