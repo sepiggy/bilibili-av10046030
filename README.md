@@ -173,4 +173,42 @@ Demos for [C++程序设计(北京大学)](https://www.bilibili.com/video/av10046
 2. 面向对象: `程序=类+类+...类`
 ## (九) 面向对象语言的发展历程
 ## (十) 从客观事物抽象出类的例子
+1. 一个例子
+    ![](images/Xnip2020-03-01_20-32-57.png)
+2. [代码](004-class_definition/demo01.cpp)
+3. `类定义的变量->类的实例->"对象"`; 定义类对应变量的过程称为`实例化`
+4. 对象的内存分配
+    - 对象的内存空间
+        - 对象的大小=所有成员变量的大小之和
+        - [例子](004-class_definition/demo02.cpp)
+    - 每个对象各有自己的存储空间
+        - 一个对象的某个成员变量被改变, 不会影响到其它的对象
+5. 对象间的运算
+    - 对象之间可以用`=`进行赋值
+    - 不能用`==, !=, >, <, >=, <=`进行比较, 除非这些运算符进行了`重载`
+6. 访问类的成员变量和成员函数
+    - 对象.成员名
+    - 对象的指针->成员名
+    - 对象的引用.成员名
+7. 类的成员函数的另一种写法, 即`成员函数体和类的定义分开写`
+   ```cpp
+   class CRectangle {
+       public:
+            int w, h;
+            int area(); // 成员函数仅在此处声明
+            int perimeter();
+            void init(int _w, int _h);
+   };
+
+   int CRectangle::area() {
+       return w * h;
+   }
+   int CRectangle::perimeter() {
+       return 2 * (w+h);
+   }
+   int CRectangle::init(int _w, int _h) {
+       w = _w; h = _h;
+   }
+   ```
+
 
