@@ -10,6 +10,7 @@ class CDemo{
     private:
         int _i;
     public:
+        CDemo(int i=0):_i(i) {}
         CDemo(const CDemo &c):_i(c._i) {};
         CDemo operator++();        // 用于前置形式
         CDemo operator++(int);     // 用于后置形式
@@ -43,7 +44,6 @@ CDemo operator--(CDemo &d, int) {
     d._i--;
     return tmp;
 }
-
 
 
 int main(void) {
